@@ -1,5 +1,5 @@
 # Viewfinder Save Menu
-Simple tool that allows to "delete" save-states of the game [Viewfinder](https://store.steampowered.com/app/1382070/Viewfinder/). It does that by moving the save-states into a seperate folder inside the folder where saves are normally stored.
+Simple tool that allows to "delete" save-states of the game [Viewfinder](https://store.steampowered.com/app/1382070/Viewfinder/). It does that by moving the save-files into a separate folder inside the folder where saves are normally stored.
 
 
 
