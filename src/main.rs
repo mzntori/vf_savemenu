@@ -19,23 +19,6 @@ use open;
 
 struct SaveManager;
 
-impl SaveManager {
-    // fn update_button_colors(&mut self) {
-    //     let mut colors: Vec<theme::Button> = vec![];
-    //
-    //     for slot in 0..=8 {
-    //         let save = Save::at_slot(slot);
-    //         if save.exists() {
-    //             colors.push(theme::Button::Primary);
-    //         } else {
-    //             colors.push(theme::Button::Secondary);
-    //         }
-    //     }
-    //
-    //     self.button_colors = colors;
-    // }
-}
-
 impl Application for SaveManager {
     type Executor = iced::executor::Default;
     type Message = Message;
@@ -60,8 +43,9 @@ impl Application for SaveManager {
             Message::Delete(slot) => {
                 let save = Save::at_slot(slot);
                 dbg!(&save);
-                save.create_recovery_save().unwrap_or_default();
-                save.remove_files().unwrap_or_default();
+                if let Ok(()) = save.create_recovery_save() {
+                    save.remove_files().unwrap_or_default();
+                }
             }
             Message::RemoveAll => {
                 for slot in 0..=8 {

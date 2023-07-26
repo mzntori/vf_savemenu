@@ -80,25 +80,26 @@ impl Save {
     }
     
     pub fn create_recovery_save(&self) -> Result<(), Error> {
+        if !self.sav.is_file() {
+            return Ok(());
+        }
+        
         let recovery_dir_path = vf_root_dir()
             .ok_or(Error::LocalLowNotFound)?
             .join(VFMENU_FOLDER_NAME)
             .join(Local::now().format("%Y-%m-%dT%H-%M-%SZ").to_string());
         
-        let recovery_bak = recovery_dir_path
-            .join(format!("viewfinder_{}.bak", self.slot));
-        
         let recovery_sav = recovery_dir_path
             .join(format!("viewfinder_{}.sav", self.slot));
         
         // File creation
-        fs::create_dir(recovery_dir_path.as_path())?;
-        File::create(recovery_bak.as_path())?;
+        if !recovery_dir_path.is_dir() {
+            fs::create_dir(recovery_dir_path.as_path())?;
+        }
         File::create(recovery_sav.as_path())?;
         
-        // Copy the files
+        // Copy the file
         fs::copy(self.sav.as_path(), recovery_sav.as_path())?;
-        fs::copy(self.bak.as_path(), recovery_bak.as_path())?;
         
         Ok(())
     }
